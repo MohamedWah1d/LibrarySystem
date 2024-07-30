@@ -12,6 +12,17 @@ class User < ApplicationRecord
   
   enum user_type: { user: 0, admin: 1 }
 
+  def generate_otp
+    self.otp = rand(100000..999999).to_s
+    self.otp_sent_at = Time.current
+    self.otp_verified = false
+    self.save!
+  end
+
+  def otp_valid?(submitted_otp)
+    otp == submitted_otp && otp_sent_at > 15.minutes.ago
+  end
+
   private
 
   def set_default_user_type
