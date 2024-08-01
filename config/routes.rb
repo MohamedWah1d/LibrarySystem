@@ -4,12 +4,25 @@ Rails.application.routes.draw do
   resources :book_categories
   resources :categories
   resources :books
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  devise_for :users, path: '', path_names: {
+    sign_in: 'auth/login',
+    sign_out: 'auth/logout',
+    registration: 'auth/signup',
+    password: 'auth/password'
+  },
+  controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    passwords: 'user/passwords'
+  }
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  devise_scope :user do
+    post 'auth/passwords/request_password_reset', to: 'users/passwords#create'
+    post 'auth/passwords/validate_otp', to: 'users/passwords#validate_otp'
+    put 'auth/passwords/reset_password', to: 'users/passwords#update'
+    put 'auth/passwords/change_password', to: 'users/passwords#update_password'
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
