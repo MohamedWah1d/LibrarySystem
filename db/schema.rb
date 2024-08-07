@@ -10,24 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_30_220633) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_07_145833) do
   create_table "book_categories", force: :cascade do |t|
-    t.integer "Book_id", null: false
+    t.integer "book_id", null: false
     t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["Book_id"], name: "index_book_categories_on_Book_id"
+    t.index ["book_id"], name: "index_book_categories_on_book_id"
     t.index ["category_id"], name: "index_book_categories_on_category_id"
   end
 
   create_table "books", force: :cascade do |t|
     t.string "title"
     t.string "author"
-    t.float "rating"
-    t.integer "review_count"
     t.integer "shelf_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "review_count", default: 0, null: false
+    t.float "rating", default: 0.0, null: false
     t.index ["shelf_id"], name: "index_books_on_shelf_id"
   end
 
@@ -50,11 +50,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_30_220633) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.integer "book_id", null: false
+    t.integer "user_id", null: false
+    t.float "rating"
+    t.text "comment", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_reviews_on_book_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "shelves", force: :cascade do |t|
     t.string "name"
     t.integer "max_capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "book_id"
+    t.index ["book_id"], name: "index_shelves_on_book_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -76,9 +89,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_30_220633) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "book_categories", "Books"
+  add_foreign_key "book_categories", "Books", column: "book_id"
   add_foreign_key "book_categories", "categories"
   add_foreign_key "books", "shelves"
   add_foreign_key "borrow_requests", "books"
   add_foreign_key "borrow_requests", "users"
+  add_foreign_key "reviews", "books"
+  add_foreign_key "reviews", "users"
+  add_foreign_key "shelves", "books"
 end

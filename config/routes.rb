@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
-  resources :borrow_requests
-  resources :shelves
-  resources :book_categories
-  resources :categories
-  resources :books
+  namespace :v1 do
+    resources :books do
+      resources :reviews, only: [:index, :create]
+    end
+    resources :borrow_requests do
+      member do
+        post :return
+      end
+    end
+    resources :shelves
+    resources :categories
+    resources :reviews, only: [:show, :update, :destroy]
+  end
   devise_for :users, path: '', path_names: {
     sign_in: 'auth/login',
     sign_out: 'auth/logout',

@@ -9,7 +9,7 @@ class Users::SessionsController < Devise::SessionsController
     render json: {
         message: 'Logged in successfully.',
         data: {
-        user: { user: UserSerializer.new(current_user).serializable_hash[:data][:attributes] }, 
+        user: UserSerializer.new(current_user).serializable_hash[:data][:attributes] , 
         extra: {
           access_token: token
         }
