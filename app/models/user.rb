@@ -23,6 +23,16 @@ class User < ApplicationRecord
     otp == submitted_otp && otp_sent_at > 15.minutes.ago
   end
 
+  def generate_email_otp
+    self.email_verification_otp = rand(100000..999999).to_s
+    self.email_verification_otp_sent_at = Time.current
+    self.save!
+  end
+
+  def email_otp_valid?(submitted_otp)
+    email_verification_otp == submitted_otp && email_verification_otp_sent_at > 15.minutes.ago
+  end
+
   private
 
   def set_default_user_type
