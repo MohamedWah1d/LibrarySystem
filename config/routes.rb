@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     post 'auth/passwords/validate_otp', to: 'users/passwords#validate_otp'
     put 'auth/passwords/reset_password', to: 'users/passwords#update'
     put 'auth/passwords/change_password', to: 'users/passwords#update_password'
+    post 'auth/email_verification/send_email_otp', to: 'users/email_verification#send_email_otp'
+    post 'auth/email_verification/verify_email_otp', to: 'users/email_verification#verify_email_otp'
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
