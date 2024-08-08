@@ -1,0 +1,23 @@
+ar:
+  activerecord:
+    models:
+      book: "كتاب"
+      category: "الفئة"
+      shelf: "الرف"
+    attributes:
+      book:
+        title: "العنوان"
+        author: "المؤلف"
+      category:
+        name: "الاسم"
+      shelf:
+        name: "الاسم"
+  book:
+    title: "العنوان"
+    author: "المؤلف"
+    category: "الفئة"
+    shelf: "الرف"
+  category:
+    name: "الاسم"
+  shelf:
+    name: "الاسم"

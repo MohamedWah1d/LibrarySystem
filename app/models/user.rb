@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_many :borrow_requests
   has_many :reviews
+  has_many :books, through: :borrow_requests
 
   before_create :set_default_user_type
   
